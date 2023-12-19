@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Student Table</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="output"></div>
+
+    <script>
+        class Student {
+            constructor(lastName, firstName, grades) {
+                this.lastName = lastName;
+                this.firstName = firstName;
+                this.grades = grades;
+                this.averageGrade = this.calculateAverageGrade();
+            }
+
+            calculateAverageGrade() {
+                const sum = this.grades.reduce((acc, grade) => acc + grade, 0);
+                return sum / this.grades.length;
+            }
+        }
+
+        class ListOfStudents {
+            constructor(students) {
+                this.students = students;
+                this.groupAverageGrade = this.calculateGroupAverageGrade();
+            }
+
+            calculateGroupAverageGrade() {
+                const allGrades = this.students.flatMap(student => student.grades);
+                const sum = allGrades.reduce((acc, grade) => acc + grade, 0);
+                return sum / allGrades.length;
+            }
+
+            getTableList() {
+                let table = '<table><thead><tr><th>Прізвище</th><th>Ім\'я</th><th>Оцінки</th><th>Середній бал</th></tr></thead><tbody>';
+
+                this.students.forEach(student => {
+                    table += `<tr><td>${student.lastName}</td><td>${student.firstName}</td><td>${student.grades.join(', ')}</td><td>${student.averageGrade.toFixed(2)}</td></tr>`;
+                });
+
+                table += `</tbody></table><p>Середній бал по групі: ${this.groupAverageGrade.toFixed(2)}</p>`;
+                return table;
+            }
+        }
+
+
+        const students = [
+            new Student('Петров', 'Петро', [80, 75, 90]),
+            new Student('Іванов', 'Іван', [85, 88, 92]),
+        ];
+
+        const studentList = new ListOfStudents(students);
+        document.getElementById('output').innerHTML = studentList.getTableList();
+    </script>
+</body>
+
+</html>

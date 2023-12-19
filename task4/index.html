@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Shape Drawing</title>
+    <style>
+        .square {
+            width: 50px;
+            height: 50px;
+            display: inline-block;
+            margin-right: -4px;
+            margin-bottom: -4px;
+        }
+    </style>
+    <script>
+        class Shape {
+            static total = 100;
+
+            constructor(a) {
+                this.a = a;
+                this.drawn = 0;
+            }
+
+            static fill() {
+                Shape.total = 100;
+                document.getElementById('result').innerText = 'Фарбу заправлено до 100%';
+                document.getElementById('shape').innerHTML = ''; // Очистимо фігуру
+            }
+
+            draw() {
+                if (Shape.total <= 0) {
+                    document.getElementById('result').innerText = 'Недостатньо фарби для малювання.';
+                    return;
+                }
+
+                const squaresToDraw = Math.min(this.a - this.drawn, Shape.total);
+                for (let i = 0; i < squaresToDraw; i++) {
+                    const shapeElement = document.createElement('div');
+                    shapeElement.classList.add('square');
+                    shapeElement.style.backgroundColor = 'blue';
+                    document.getElementById('shape').appendChild(shapeElement);
+                }
+
+                Shape.total -= squaresToDraw;
+                this.drawn += squaresToDraw;
+
+                if (this.drawn < this.a) {
+                    document.getElementById('result').innerText = `Малюємо ${this.drawn}/${this.a} квадратиків. Залишилося фарби: ${Shape.total}.`;
+                } else {
+                    document.getElementById('result').innerText = `Фігура малюється повністю. Залишилося фарби: ${Shape.total}.`;
+                }
+            }
+        }
+
+        function drawShape() {
+            const size = parseInt(document.getElementById('size').value);
+            const shape = new Shape(size);
+            shape.draw();
+        }
+
+        function fillPaint() {
+            Shape.fill();
+            document.getElementById('result').innerText = 'Фарбу заправлено до 100%';
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Shape Drawing</h1>
+    <label for="size">Розмір фігури:</label>
+    <input type="number" id="size" min="1" value="1">
+    <button onclick="drawShape()">Намалювати</button>
+    <button onclick="fillPaint()">Заправити фарбу</button>
+    <p id="result"></p>
+    <div id="shape"></div>
+</body>
+
+</html>

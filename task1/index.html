@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Local Storage Form</title>
+    <style>
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="myForm">
+        <label for="inputField">Input:</label>
+        <input type="text" id="inputField"><br>
+
+        <label for="textareaField">Textarea:</label>
+        <textarea id="textareaField"></textarea><br>
+
+        <label for="checkboxField">Checkbox:</label>
+        <input type="checkbox" id="checkboxField"><br>
+
+        <label for="radioField1">Radio 1:</label>
+        <input type="radio" id="radioField1" name="radioGroup"><br>
+
+        <label for="radioField2">Radio 2:</label>
+        <input type="radio" id="radioField2" name="radioGroup"><br>
+
+        <label for="selectField">Select:</label>
+        <select id="selectField">
+            <option value="option1">Option 1</option>
+            <option value="option2">Option 2</option>
+            <option value="option3">Option 3</option>
+        </select>
+    </form>
+
+    <script>
+
+        const inputElement = document.getElementById('inputField');
+        const textareaElement = document.getElementById('textareaField');
+        const checkboxElement = document.getElementById('checkboxField');
+        const radio1Element = document.getElementById('radioField1');
+        const radio2Element = document.getElementById('radioField2');
+        const selectElement = document.getElementById('selectField');
+
+
+        function saveToLocalStorage() {
+            localStorage.setItem('inputValue', inputElement.value);
+            localStorage.setItem('textareaValue', textareaElement.value);
+            localStorage.setItem('checkboxValue', checkboxElement.checked);
+            localStorage.setItem('radioValue1', radio1Element.checked);
+            localStorage.setItem('radioValue2', radio2Element.checked);
+            localStorage.setItem('selectValue', selectElement.value);
+        }
+
+        function loadFromLocalStorage() {
+            inputElement.value = localStorage.getItem('inputValue') || '';
+            textareaElement.value = localStorage.getItem('textareaValue') || '';
+            checkboxElement.checked = localStorage.getItem('checkboxValue') === 'true';
+            radio1Element.checked = localStorage.getItem('radioValue1') === 'true';
+            radio2Element.checked = localStorage.getItem('radioValue2') === 'true';
+            selectElement.value = localStorage.getItem('selectValue') || '';
+        }
+
+        inputElement.addEventListener('input', saveToLocalStorage);
+        textareaElement.addEventListener('input', saveToLocalStorage);
+        checkboxElement.addEventListener('change', saveToLocalStorage);
+        radio1Element.addEventListener('change', saveToLocalStorage);
+        radio2Element.addEventListener('change', saveToLocalStorage);
+        selectElement.addEventListener('change', saveToLocalStorage);
+
+        window.addEventListener('load', loadFromLocalStorage);
+    </script>
+</body>
+
+</html>
